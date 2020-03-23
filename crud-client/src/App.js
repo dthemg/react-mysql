@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends React.Component {
@@ -12,8 +11,9 @@ class App extends React.Component {
 	}
 
 	readAllFruits() {
-		fetch("http://localhost:9000/fruitAPI")
-			.then(res => res.text())
+		console.log("Reading all....")
+		fetch("http://localhost:9000/fruitAPI/getAll")
+			.then(res => res.body)
 			.then(res => this.setState({ fruitResponse: res }));
 	}
 
@@ -25,6 +25,9 @@ class App extends React.Component {
 				>
 					Get API content button
 				</button>
+				<p>
+					{ this.state.fruitResponse }
+				</p>
 			</div>
 		);
 	}
