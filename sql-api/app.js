@@ -7,7 +7,7 @@ var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var fruitAPIRouter = require('./routes/fruitAPI');
+var fruitAPIRouter = require('./routes/fruit.routes.js');
 
 var app = express();
 
