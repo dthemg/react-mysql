@@ -4,7 +4,6 @@ var connection = require("./connection");
 const Fruit = function(fruit) {
 	this.weight = fruit.weight;
 	this.name = fruit.name;
-	this.id = fruit.id;
 };
 
 
@@ -19,5 +18,19 @@ Fruit.getAll = result => {
 		result(null, res);
 	});
 };
+
+Fruit.addNew = (newFruit, result) => {
+	console.log("Attempting to insert ", {...newFruit});
+	connection.query("INSERT INTO fruitlist SET ?", newFruit, (err, res) => {
+		if (err) {
+			console.log("error: ", err);
+			result(err, null);
+			return;
+		}
+		console.log("Created fruit: ", {...newFruit});
+		result(null, { ...newFruit }); // How does this work?
+	});
+};
+
 
 module.exports = Fruit;

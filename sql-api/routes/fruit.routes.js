@@ -5,6 +5,8 @@ const fruit = require('../controllers/fruit.controller.js');
 
 router.get("/getAll", fruit.getAll);
 
+router.post("/addNew", fruit.addNew);
+
 module.exports = router;
 
 
