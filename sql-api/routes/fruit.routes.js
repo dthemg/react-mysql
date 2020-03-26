@@ -7,6 +7,8 @@ router.get("/getAll", fruit.getAll);
 
 router.post("/addNew", fruit.addNew);
 
+router.delete("/delete/:id", fruit.delete);
+
 module.exports = router;
 
 

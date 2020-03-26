@@ -15,7 +15,6 @@ exports.getAll = (req, res) => {
 
 // Add new fruit to database
 exports.addNew = (req, res) => {
-	// TODO: Validate new request
 	if (!req.body) {
 		res.status(400).send({
 			message: "Content of POST is empty"
@@ -24,7 +23,6 @@ exports.addNew = (req, res) => {
 		console.log("Received: ", { ...req.body })
 	}
 
-	// What is up with this body part?
 	const fruit = new Fruit({
 		weight: req.body.weight,
 		name: req.body.name
@@ -36,6 +34,24 @@ exports.addNew = (req, res) => {
 				message: err.message || "addNew error."
 			});
 		res.send(data);
+		}
+	});
+};
+
+exports.delete = (req, res) => {
+	Fruit.delete(req.params.id, (err, data) => {
+		if (err) {
+			if (err.kind == "not_found") {
+				res.status(404).send({
+					message: "Did not find fruit with id " + req.params.id
+				});
+			} else {
+				res.status(500).send({
+					message: "Could not delete fruit with id " + req.params.id
+				});
+			}
+		} else {
+			res.send({ message: "Deleted fruit" });
 		}
 	});
 };

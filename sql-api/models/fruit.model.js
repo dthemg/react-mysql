@@ -32,5 +32,22 @@ Fruit.addNew = (newFruit, result) => {
 	});
 };
 
+Fruit.delete = (id, result) => {
+	connection.query("DELETE FROM fruitlist WHERE id = ?", id, (err, res) => {
+		if (err) {
+			console.log("error: ", err);
+			result(null, err);
+			return;
+		}
+
+		if (res.affectedRows == 0) {
+			result({ kind: "not_found" }, null);
+			return;
+		}
+
+		console.log("Deleted fruit with id ", id);
+		result(null, res);
+	});
+};
 
 module.exports = Fruit;
