@@ -8,11 +8,14 @@ class App extends React.Component {
 			fruitResponse: "",
 			newName: "",
 			newWeight: "",
+			newRemoveId: -1,
 		};
 		this.readAllFruits = this.readAllFruits.bind(this);
 		this.onChangeName = this.onChangeName.bind(this);
 		this.onChangeWeight = this.onChangeWeight.bind(this);
+		this.onChangeRemoveId = this.onChangeRemoveId.bind(this);
 		this.onSubmitNewFruit = this.onSubmitNewFruit.bind(this);
+		this.onSubmitRemoveId = this.onSubmitRemoveId.bind(this);
 	}
 
 	readAllFruits() {
@@ -28,6 +31,10 @@ class App extends React.Component {
 
 	onChangeName(event) {
 		this.setState({ newName: event.target.value });
+	}
+
+	onChangeRemoveId(event) {
+		this.setState({ newRemoveId: event.target.value });
 	}
 
 	onSubmitNewFruit(event) {
@@ -51,7 +58,21 @@ class App extends React.Component {
 		);
 	}
 
-  render() {
+	onSubmitRemoveId(event) {
+		event.preventDefault();
+		console.log("Removing id ", this.state.newRemoveId);
+
+		fetch(
+			"http://localhost:9000/fruitAPI/delete/" + this.state.newRemoveId.toString(),
+			{
+				method: 'DELETE', 
+			}
+		)
+		.then(res => res.text())
+		.then(res => console.log(res));
+	}
+
+	render() {
 		return (
 			<div>
 				<div>
@@ -92,6 +113,26 @@ class App extends React.Component {
 								value="Submit new fruit"
 							/>
 						</div>
+					</form>
+				</div>
+				<div>
+					<div>
+						<p>Remove fruit with id</p>
+					</div>
+					<form>
+						<label>Id: </label>
+						<input
+							type="int"
+							id="removeId"
+							name="removeId"
+							value={this.state.newRemoveId}
+							onChange={this.onChangeRemoveId}
+						/>
+						<input
+							type="submit"
+							onClick={ this.onSubmitRemoveId }
+							value="Remove specified id"
+						/>
 					</form>
 				</div>
 			</div>
