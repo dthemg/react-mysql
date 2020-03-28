@@ -1,6 +1,6 @@
 var connection = require("./connection");
 
-// Constructor
+ 
 const Fruit = function(fruit) {
 	this.weight = fruit.weight;
 	this.name = fruit.name;
@@ -49,5 +49,29 @@ Fruit.delete = (id, result) => {
 		result(null, res);
 	});
 };
+
+Fruit.updateById = (id, fruit, result) => {
+	connection.query(
+		"UPDATE fruitlist SET name = ?, weight = ? WHERE id = ?",
+		[fruit.name, fruit.weight, id], 
+		(err, res) => {
+			if (err) {
+				console.log("Error: ", err);
+				result(null, err);
+				return;
+			}
+
+			if (res.affectedRows == 0) {
+				result({ kind: "not_found" }, null)
+				return;
+			}
+
+			console.log("Updated customer with id ", id);
+			result(null, { id: id, ...fruit }); // This row is weird...
+		}
+	);
+};
+
+
 
 module.exports = Fruit;

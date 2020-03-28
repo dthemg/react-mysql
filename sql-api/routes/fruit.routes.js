@@ -9,6 +9,8 @@ router.post("/addNew", fruit.addNew);
 
 router.delete("/delete/:id", fruit.delete);
 
+router.put("/update/:id", fruit.updateById);
+
 module.exports = router;
 
 

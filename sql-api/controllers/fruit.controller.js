@@ -38,6 +38,7 @@ exports.addNew = (req, res) => {
 	});
 };
 
+// Delete fruit with specific id
 exports.delete = (req, res) => {
 	Fruit.delete(req.params.id, (err, data) => {
 		if (err) {
@@ -52,6 +53,33 @@ exports.delete = (req, res) => {
 			}
 		} else {
 			res.send({ message: "Deleted fruit" });
+		}
+	});
+};
+
+// Update fruit with specific id
+exports.updateById = (req, res) => {
+	if (!req.body) {
+		res.status(400).send({
+			message: "Update info is empty"
+		});
+	}
+
+	let fruit = new Fruit(req.body); // Is new necessary here?
+	let id = req.params.id;
+	Fruit.updateById(id, fruit, (err, data) => {
+		if (err) {
+			if (err.kind == "not_found") {
+				res.status(404).send({
+					message: "Could not find fruit with id " + req.params.id
+				});
+			} else {
+				res.status(500).send({
+					message: "Error when updating fruit with id " + req.params.id
+				});
+			}
+		} else {
+			res.send(data);
 		}
 	});
 };
