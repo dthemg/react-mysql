@@ -30,10 +30,6 @@ class App extends React.Component {
 		this.onChange = this.onChange.bind(this);
 	}
 
-	createData(results) {
-		return { results }
-	}
-
 	useStyles() {
 		return makeStyles({
 			table: {
@@ -44,9 +40,10 @@ class App extends React.Component {
 
 	readAllFruits() {
 		console.log("Reading all....")
-		fetch("http://localhost:9000/fruitAPI/getAll")
+		fetch("http://localhost:9000/fruitAPI/getAll", { method: 'GET' })
 			.then(res => res.json())
-			.then(res => this.setState({ fruitResponse: this.createData(res) }));
+			.then(res => this.setState({ fruitResponse: res }))
+			.catch(error => console.log(error, "ERROR WHEN SETTING STATE"));
 	}
 
 	onChange(event) {
@@ -108,13 +105,11 @@ class App extends React.Component {
 		)
 		.then(res => res.text())
 		.then(res => console.log(res));
-		
+	
 	}
 
 	renderTable() {
 		const classes = this.useStyles();
-
-		debugger;
 
 		return (
 			<TableContainer component={Paper}>
@@ -151,11 +146,8 @@ class App extends React.Component {
 					<button
 						onClick = { this.readAllFruits }
 					>
-						Get API content button
+						Get DB content
 					</button>
-					<p>
-						{ this.state.fruitResponse }
-					</p>
 				</div>
 				<div>
 					<form>
